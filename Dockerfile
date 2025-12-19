@@ -65,9 +65,6 @@ RUN conda env create -f environment.yaml
 RUN echo "conda activate quarto_python_r" >> ~/.bashrc
 ENV PATH=/opt/conda/envs/quarto_python_r/bin:$PATH
 
-# Force conda's C++ runtime to be used first
-ENV LD_LIBRARY_PATH=/opt/conda/envs/quarto_python_r/lib:/usr/lib/x86_64-linux-gnu
-
 # Set path to renv
 ENV RENV_PATHS_LIBRARY=/workspace/renv/library
 

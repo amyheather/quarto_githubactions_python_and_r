@@ -2,7 +2,10 @@ name: quarto_python_r
 channels:
   - conda-forge
 dependencies:
+  - libgcc-ng
+  - libstdcxx-ng
   - libtiff=4.5.1
+  - matplotlib<3.9
   - pillow=10.0.0
   - python=3.11
   - seaborn
