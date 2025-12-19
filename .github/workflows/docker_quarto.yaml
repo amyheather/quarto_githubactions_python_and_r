@@ -80,6 +80,11 @@ jobs:
       - name: Configure Git safe directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      - name: Sanity check Python env
+        run: |
+          echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
+          python -c "import sys, matplotlib; print('Python:', sys.version); print('matplotlib:', matplotlib.__version__)"
+
       - name: Render and publish to GitHub pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
