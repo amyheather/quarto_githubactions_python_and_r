@@ -1,4 +1,5 @@
 Title: quartopythonr
 Imports:
     knitr
+    reticulate
     rmarkdown
