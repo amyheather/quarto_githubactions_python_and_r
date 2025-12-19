@@ -1,0 +1,19 @@
+---
+title: "Quarto via GitHub actions (w/ Python and R code)"
+engine: knitr
+---
+
+## Python code
+
+```{python}
+import seaborn as sns
+
+sns.displot([0, 1, 2, 3, 4, 5])
+```
+
+## R code.
+
+```{r}
+data(mtcars)
+head(mtcars, 6)
+```
