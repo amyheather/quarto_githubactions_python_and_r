@@ -22,3 +22,15 @@ renv::init()
 renv::install()
 renv::snapshot()
 ```
+
+6. Created a simple quarto site and tested local render - all fine.
+
+With the environments and getting site working, there was a bunch of troubleshooting, as was having issues installing incompatible packages and stuff in packages not working etc. Also, set python interpreter in VSCode. Moving on...
+
+7. Published on GitHub pages.
+
+```
+quarto publish gh-pages
+```
+
+8. Created `Dockerfile` and `.github/workflows/quarto.yaml`. Uses two step process: (a) create docker image and host on GHCR, and (b) render within docker. Why? To avoid the long process of setting up the environments everytime render - can move quicker if docker already has everything needed!
