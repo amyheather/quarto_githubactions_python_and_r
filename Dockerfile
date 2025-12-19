@@ -65,6 +65,9 @@ RUN conda env create -f environment.yaml
 RUN echo "conda activate quarto_python_r" >> ~/.bashrc
 ENV PATH=/opt/conda/envs/quarto_python_r/bin:$PATH
 
+# Set path to renv
+ENV RENV_PATHS_LIBRARY=/workspace/renv/library
+
 # Install renv and restore R packages
 RUN Rscript -e "install.packages('renv', repos='https://cloud.r-project.org')" \
     && Rscript -e "renv::restore()"
