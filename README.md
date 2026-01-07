@@ -1,4 +1,4 @@
-# Quarto via GitHub actions (w/ Python and R code)
+# Quarto via GitHub actions (w/ Python and R code) - version 1
 
 This repository demonstrates how to render and deploy a quarto site on GitHub pages via GitHub actions, when it contains executable Python and R code.
 
@@ -15,7 +15,7 @@ conda activate quarto_python_r
 
 4. Create `DESCRIPTION`.
 
-5. Set-up R environment with `renv` (if working from terminal, use `R` to open R console and `q()` to close it). Use `implicit` snapshot.
+5. Set-up R environment with `renv` (if working from terminal, use `R` to open R console and `q()` to close it). Use `all` snapshot.
 
 ```
 renv::init()
@@ -44,3 +44,43 @@ Conda's matplotlib was not compatible with the base rocker image. The matplotlib
 I tried to force Python to use conda's libstdc++ at runtime, but that didn't work. In the end, I resolve this by downgrading matplotlib to a version that doesn't require CXXABI_1.3.15.
 
 **Next steps:** I have created a [second version of this repository](https://github.com/amyheather/quarto_githubactions_python_and_r_v2) where I build the site on a different base image, to see if this resolves the problem.
+
+## Common `reticulate` error and solution
+
+When rendering a Quarto document containing executable python code with `reticulate`, you might encounter:
+
+```
+Error in `use_condaenv()`:
+! Unable to locate conda environment 'des-rap-book'.
+Backtrace:
+    ▆
+ 1. └─reticulate::use_condaenv("des-rap-book", required = TRUE)
+```
+
+This can occur when multiple Conda or Mamba installations exist (e.g. `mambgaforge`, `miniconda3`), or if R is using a different search path than the shell. By default, `reticulate` only looks in one location for environments, which can cause problems when environments are not where `reticulate` expects.
+
+To fix this, **set the `RETICULATE_CONDA` environment variable** to the correct Conda or Mamba executable. To find the path to your executable, run:
+
+```
+conda env list
+```
+
+Look for your environment in the list. For example, if your environment is at `/home/amy/mambaforge/envs/des-rap-book`, then your Conda executable is likely at `/home/amy/mambaforge/bin/conda`.
+
+Set the environment variable like so:
+
+```
+export RETICULATE_CONDA=/home/amy/mambaforge/bin/conda
+```
+
+Now render your book:
+
+```
+quarto render
+```
+
+To avoid needing to set `RETICULATE_CONDA` every time you open a new terminal, add the export command to an `.Renviron` file in your project directory. This file is not tracked by Git, and is specific to you. Create the file and add:
+
+```
+RETICULATE_CONDA=/home/amy/mambaforge/bin/conda
+```
