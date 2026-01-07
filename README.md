@@ -34,3 +34,13 @@ quarto publish gh-pages
 ```
 
 8. Created `Dockerfile` and `.github/workflows/quarto.yaml`. Uses two step process: (a) create docker image and host on GHCR, and (b) render within docker. Why? To avoid the long process of setting up the environments everytime render - can move quicker if docker already has everything needed!
+
+## ⚠️ Warning
+
+I encountered an issue with the approach in this repository.
+
+Conda's matplotlib was not compatible with the base rocker image. The matplotlib in conda was built against a newer libstdc++ ABI than rocker/r-ver:4.4.1 so when reticulate imports it we get a CXXABI_1.3.15 mismatch.
+
+I tried to force Python to use conda's libstdc++ at runtime, but that didn't work. In the end, I resolve this by downgrading matplotlib to a version that doesn't require CXXABI_1.3.15.
+
+**Next steps:** I have created a [second version of this repository](https://github.com/amyheather/quarto_githubactions_python_and_r_v2) where I build the site on a different base image, to see if this resolves the problem.
